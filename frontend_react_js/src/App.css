@@ -1,104 +1,377 @@
-/* CSS Variables for Theme Management */
-:root {
-  /* Light theme colors */
-  --bg-primary: #ffffff;
-  --bg-secondary: #f8f9fa;
-  --text-primary: #282c34;
-  --text-secondary: #61dafb;
-  --border-color: #e9ecef;
-  --button-bg: #007bff;
-  --button-text: #ffffff;
-}
-
-[data-theme="dark"] {
-  /* Dark theme colors */
-  --bg-primary: #1a1a1a;
-  --bg-secondary: #282c34;
-  --text-primary: #ffffff;
-  --text-secondary: #61dafb;
-  --border-color: #404040;
-  --button-bg: #0056b3;
-  --button-text: #ffffff;
-}
-
 .App {
-  text-align: center;
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
   min-height: 100vh;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  background: var(--background);
+  color: var(--text);
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/* Shell */
+.appShell {
+  padding: 48px 16px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.container {
+  max-width: 920px;
+  margin: 0 auto;
 }
 
-.App-header {
-  background-color: var(--bg-secondary);
-  min-height: 100vh;
+.headerRow {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: var(--text-primary);
-  transition: background-color 0.3s ease;
-  position: relative;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
 }
 
-.App-link {
-  color: var(--text-secondary);
-  transition: color 0.3s ease;
+.title {
+  font-size: 34px;
+  letter-spacing: -0.02em;
+  margin: 0;
 }
 
-.theme-toggle {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background-color: var(--button-bg);
-  color: var(--button-text);
-  border: none;
-  border-radius: 8px;
-  padding: 10px 20px;
+.subtitle {
+  margin: 6px 0 0 0;
+  color: var(--muted);
   font-size: 14px;
+}
+
+.statusPills {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  padding: 8px 10px;
+  border-radius: 999px;
+  box-shadow: var(--shadow-sm);
+  font-size: 13px;
+  color: var(--secondary);
+}
+
+.pillInfo {
+  border-color: rgba(59, 130, 246, 0.25);
+  color: var(--primary);
+}
+
+.pillSuccess {
+  border-color: rgba(6, 182, 212, 0.25);
+  color: #0f766e;
+}
+
+/* Notice */
+.notice {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  border-radius: var(--radius);
+  padding: 12px 14px;
+  margin: 14px 0 18px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.noticeError {
+  border-color: rgba(239, 68, 68, 0.25);
+}
+
+.noticeText {
+  font-size: 14px;
+  color: var(--text);
+}
+
+.noticeHint {
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+/* Main card */
+.mainCard {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 16px;
+}
+
+.divider {
+  height: 1px;
+  background: var(--border);
+  margin: 14px 0;
+}
+
+/* Inputs & buttons */
+.field {
+  flex: 1;
+  min-width: 180px;
+}
+
+.label {
+  display: block;
+  font-size: 12px;
+  color: var(--secondary);
+  margin: 0 0 6px;
+}
+
+.input {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 12px 12px;
+  background: #fff;
+  outline: none;
+  transition: box-shadow 120ms ease, border-color 120ms ease;
+}
+
+.input:focus {
+  border-color: rgba(59, 130, 246, 0.55);
+  box-shadow: var(--focus);
+}
+
+.input:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.inputCompact {
+  padding: 10px 10px;
+}
+
+.btn {
+  border: 1px solid transparent;
+  border-radius: 999px;
+  padding: 11px 14px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 80ms ease, box-shadow 120ms ease, opacity 120ms ease, background 120ms ease,
+    border-color 120ms ease;
 }
 
-.theme-toggle:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-  opacity: 0.9;
+.btn:active {
+  transform: translateY(1px);
 }
 
-.theme-toggle:active {
-  transform: translateY(0);
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.btnPrimary {
+  background: var(--primary);
+  color: white;
+  box-shadow: 0 10px 20px rgba(59, 130, 246, 0.22);
+}
+
+.btnPrimary:hover:not(:disabled) {
+  opacity: 0.95;
+}
+
+.btnGhost {
+  background: transparent;
+  border-color: var(--border);
+  color: var(--secondary);
+}
+
+.btnGhost:hover:not(:disabled) {
+  border-color: rgba(100, 116, 139, 0.35);
+  box-shadow: var(--shadow-sm);
+}
+
+.btnDanger {
+  background: rgba(239, 68, 68, 0.08);
+  border-color: rgba(239, 68, 68, 0.25);
+  color: #b91c1c;
+}
+
+.btnDanger:hover:not(:disabled) {
+  background: rgba(239, 68, 68, 0.12);
+}
+
+.btnSmall {
+  padding: 8px 10px;
+  font-size: 13px;
+}
+
+/* Task input row */
+.taskInputRow {
+  display: flex;
+  gap: 12px;
+  align-items: flex-end;
+}
+
+/* Task list */
+.taskList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.taskItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 10px;
+  background: #fff;
+}
+
+.taskLeft {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  flex: 1;
+}
+
+.checkBtn {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--success);
+  font-weight: 800;
+  cursor: pointer;
+  flex: 0 0 auto;
+  transition: box-shadow 120ms ease, border-color 120ms ease, background 120ms ease;
+}
+
+.checkBtn:hover:not(:disabled) {
+  box-shadow: var(--shadow-sm);
+  border-color: rgba(6, 182, 212, 0.35);
+}
+
+.checkBtnDone {
+  background: rgba(6, 182, 212, 0.08);
+  border-color: rgba(6, 182, 212, 0.30);
+}
+
+.taskBody {
+  min-width: 0;
+  flex: 1;
+}
+
+.titleRow {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  min-width: 0;
+}
+
+.taskTitle {
+  font-size: 15px;
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.taskTitleDone {
+  text-decoration: line-through;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.taskMeta {
+  font-size: 12px;
+  color: var(--muted);
+  flex: 0 0 auto;
+}
+
+.taskActions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex: 0 0 auto;
+}
+
+.editRow {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+/* Empty state */
+.emptyState {
+  text-align: center;
+  padding: 30px 10px 26px;
+  color: var(--secondary);
+}
+
+.emptyIcon {
+  width: 56px;
+  height: 56px;
+  border-radius: 18px;
+  border: 1px solid var(--border);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  color: var(--primary);
+  background: rgba(59, 130, 246, 0.06);
+  box-shadow: var(--shadow-sm);
+}
+
+.emptyTitle {
+  margin: 12px 0 6px;
+  font-size: 18px;
+  color: var(--text);
+}
+
+.emptyText {
+  margin: 0;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+/* Footer */
+.footer {
+  margin-top: 14px;
+  padding: 10px 2px;
+}
+
+.footerText {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .appShell {
+    padding: 28px 12px;
   }
-  to {
-    transform: rotate(360deg);
-  }
-}
 
-/* Responsive design for mobile */
-@media (max-width: 768px) {
-  .theme-toggle {
-    top: 10px;
-    right: 10px;
-    padding: 8px 16px;
-    font-size: 12px;
+  .headerRow {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .taskInputRow {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .taskItem {
+    align-items: flex-start;
+  }
+
+  .taskActions {
+    flex-direction: column;
+    align-items: stretch;
   }
 }

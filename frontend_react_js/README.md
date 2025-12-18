@@ -1,82 +1,52 @@
-# Lightweight React Template for KAVIA
+# Simple To‑Do List (React Frontend)
 
-This project provides a minimal React template with a clean, modern UI and minimal dependencies.
+A lightweight single-page React app to manage tasks: add, edit, delete, and toggle completion.
 
 ## Features
 
-- **Lightweight**: No heavy UI frameworks - uses only vanilla CSS and React
-- **Modern UI**: Clean, responsive design with KAVIA brand styling
-- **Fast**: Minimal dependencies for quick loading times
-- **Simple**: Easy to understand and modify
+- Clean modern light UI (no heavy UI frameworks)
+- Add / edit (inline) / delete / toggle complete
+- Optimistic UI updates
+- **Storage provider auto-selection**
+  - Uses REST backend if configured & reachable
+  - Falls back to **localStorage** automatically if not configured or backend is down
 
-## Getting Started
+## Backend Integration
 
-In the project directory, you can run:
+The frontend expects the following REST endpoints:
 
-### `npm start`
+- `GET /tasks` → returns `[{ id, title, completed }]`
+- `POST /tasks` body `{ title, completed? }` → returns created task
+- `PATCH /tasks/:id` body `{ title?, completed? }` → returns updated task
+- `DELETE /tasks/:id` → 204 or 200
 
-Runs the app in development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Configure API Base URL
 
-### `npm test`
+Set either:
 
-Launches the test runner in interactive watch mode.
+- `REACT_APP_API_BASE`
+- or `REACT_APP_BACKEND_URL`
 
-### `npm run build`
+Example:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-## Customization
-
-### Colors
-
-The main brand colors are defined as CSS variables in `src/App.css`:
-
-```css
-:root {
-  --kavia-orange: #E87A41;
-  --kavia-dark: #1A1A1A;
-  --text-color: #ffffff;
-  --text-secondary: rgba(255, 255, 255, 0.7);
-  --border-color: rgba(255, 255, 255, 0.1);
-}
+```bash
+cp .env.example .env
+# then edit .env:
+# REACT_APP_API_BASE=http://localhost:8000
 ```
 
-### Components
+If neither is set (or the backend is unreachable), the app will continue working using localStorage.
 
-This template uses pure HTML/CSS components instead of a UI framework. You can find component styles in `src/App.css`. 
+## Running
 
-Common components include:
-- Buttons (`.btn`, `.btn-large`)
-- Container (`.container`)
-- Navigation (`.navbar`)
-- Typography (`.title`, `.subtitle`, `.description`)
+```bash
+npm install
+npm start
+```
 
-## Learn More
+Open http://localhost:3000
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Notes
 
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- This project intentionally keeps dependencies minimal.
+- Error handling is non-intrusive: a small banner shows when backend sync fails, and the app continues locally.
