@@ -250,24 +250,50 @@
 }
 
 .searchWrap {
-  position: relative;
+  /* Use inline layout (icon + input) to avoid any overlap/stacking issues across breakpoints. */
   width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  /* Match input corner radius visually when grouped */
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: #fff;
+  padding: 0 12px;
+}
+
+/* Show a clear focus ring when the input inside is focused. */
+.searchWrap:focus-within {
+  border-color: rgba(59, 130, 246, 0.55);
+  box-shadow: var(--focus);
 }
 
 .searchIcon {
-  position: absolute;
-  top: 50%;
-  left: 12px;
-  transform: translateY(-50%);
+  /* Inline icon that does not take focus and cannot intercept clicks */
   color: var(--secondary);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   pointer-events: none;
+  flex: 0 0 auto;
 }
 
+/* The search input should not render its own border since the wrapper provides it. */
 .inputSearch {
-  padding-left: 38px;
+  border: 0;
+  box-shadow: none;
+  outline: none;
+  background: transparent;
+
+  /* Keep spacing comfortable and consistent with other inputs. */
+  padding: 12px 0;
+  min-width: 0; /* prevents overflow in grid/flex containers */
+}
+
+.inputSearch:focus {
+  border-color: transparent;
+  box-shadow: none;
 }
 
 /* Mobile overlay */
