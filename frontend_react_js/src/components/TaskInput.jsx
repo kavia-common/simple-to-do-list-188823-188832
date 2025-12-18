@@ -1,4 +1,5 @@
 import React, { useId, useState } from 'react';
+import { FiPlus } from 'react-icons/fi';
 
 // PUBLIC_INTERFACE
 export default function TaskInput({ onAdd, isDisabled = false }) {
@@ -32,10 +33,19 @@ export default function TaskInput({ onAdd, isDisabled = false }) {
           onChange={(e) => setTitle(e.target.value)}
           disabled={isDisabled}
           autoComplete="off"
+          // Used by AppShell quick add for focusing the field.
+          // (We keep the actual DOM id stable without depending on React's generated useId)
+          // eslint-disable-next-line react/no-unknown-property
+          data-role="new-task-input"
         />
+        {/* Mirror a stable id for quick focus (set in App.js quickAdd). */}
+        <input type="hidden" id="new-task-input" value="" readOnly aria-hidden="true" />
       </div>
 
       <button className="btn btnPrimary" type="submit" disabled={!canSubmit}>
+        <span className="btnIcon" aria-hidden="true">
+          <FiPlus />
+        </span>
         Add
       </button>
     </form>

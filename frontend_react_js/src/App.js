@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useMemo, useState } from 'react';
 import TaskInput from './components/TaskInput';
 import TaskList from './components/TaskList';
 import EmptyState from './components/EmptyState';
+import AppShell from './components/AppShell';
 import { useTasks } from './hooks/useTasks';
 import './styles/theme.css';
 import './App.css';
@@ -16,16 +17,35 @@ function App() {
   const { tasks, isLoading, error, storageMode, addTask, updateTask, deleteTask, toggleTask, clearError } =
     useTasks();
 
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [search, setSearch] = useState('');
+
+  const filteredTasks = useMemo(() => {
+    const q = search.trim().toLowerCase();
+    if (!q) return tasks;
+    return tasks.filter((t) => String(t.title || '').toLowerCase().includes(q));
+  }, [tasks, search]);
+
+  const quickAdd = () => {
+    // Keep behavior predictable: focus stays on the page; we just close the sidebar.
+    setSidebarOpen(false);
+    // Users can add via the main "New task" input; this is a friendly shortcut hint action.
+    // We intentionally do not auto-create empty tasks.
+    const el = document.getElementById('new-task-input');
+    if (el) el.focus();
+  };
+
   return (
     <div className="App">
-      <div className="container">
-        <header className="headerRow" aria-label="Header">
-          <div>
-            <h1 className="title">To‑Do List</h1>
-            <p className="subtitle">Add tasks, mark them complete, and keep moving.</p>
-          </div>
-
-          <div className="statusPills" aria-label="App status">
+      <AppShell
+        sidebarOpen={sidebarOpen}
+        setSidebarOpen={setSidebarOpen}
+        searchValue={search}
+        onSearchChange={setSearch}
+        onQuickAdd={quickAdd}
+      >
+        <div className="container containerWide">
+          <div className="statusRow" aria-label="App status">
             <span className="pill" title="Storage provider in use">
               Storage: <strong>{storageMode}</strong>
             </span>
@@ -39,9 +59,7 @@ function App() {
               </span>
             )}
           </div>
-        </header>
 
-        <main>
           {error ? (
             <div className="notice noticeError" role="status" aria-live="polite">
               <div className="noticeText">
@@ -55,15 +73,36 @@ function App() {
           ) : null}
 
           <section className="mainCard" aria-label="Tasks">
+            <div className="cardHeader">
+              <div>
+                <h2 className="cardTitle">Tasks</h2>
+                <p className="cardSub">
+                  {search.trim()
+                    ? `Showing ${filteredTasks.length} of ${tasks.length} matching “${search.trim()}”.`
+                    : 'Add tasks, mark them complete, and keep moving.'}
+                </p>
+              </div>
+            </div>
+
             <TaskInput onAdd={addTask} isDisabled={isLoading} />
 
             <div className="divider" />
 
-            {tasks.length === 0 ? (
-              <EmptyState />
+            {filteredTasks.length === 0 ? (
+              search.trim() ? (
+                <div className="emptyState" role="status" aria-live="polite">
+                  <div className="emptyIcon" aria-hidden="true">
+                    ☐
+                  </div>
+                  <h2 className="emptyTitle">No matches</h2>
+                  <p className="emptyText">Try a different search term.</p>
+                </div>
+              ) : (
+                <EmptyState />
+              )
             ) : (
               <TaskList
-                tasks={tasks}
+                tasks={filteredTasks}
                 onToggle={toggleTask}
                 onDelete={deleteTask}
                 onUpdate={updateTask}
@@ -78,8 +117,8 @@ function App() {
               cancels.
             </span>
           </footer>
-        </main>
-      </div>
+        </div>
+      </AppShell>
     </div>
   );
 }
